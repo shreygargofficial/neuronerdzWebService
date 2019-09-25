@@ -32,7 +32,6 @@ modelNeuronerdz.createUserId = () => {
             { $project: { userId: 1, _id: 0 } }
 
         ]).then(user => {
-            ("9 ",user);
             
                 if (user.length == 0)
                     return 0
@@ -443,34 +442,29 @@ modelNeuronerdz.changeUserPermission = (userName, userPermission) => {
 }
 
 modelNeuronerdz.addUser = (user) => {
-    ("1 ",user);
     
     return modelNeuronerdz.getUserByUserName(user.userName).then(checkUserName => {
         if (checkUserName) {
-            ("4 ");
+           
             let err = new Error();
             err.message = "UserName already exist"
             err.status = 404;
             throw err;
         }
         else {
-            ("5 ");
+        
             return modelNeuronerdz.getUserByEmailId(user.emailId).then(checkEmailId => {
                 if (checkEmailId) {
-                    ("6 ");
                     let err = new Error();
                     err.message = "EmailId already exist"
                     err.status = 404;
                     throw err;
                 }
                 else {
-                    ("7 ");
                     return modelNeuronerdz.createUserId().then(userId => {
                             user.userId=userId+1;
-                            ("2 ",user);
                             return schema.getUserSchema().then(model => {
                                 return model.create(user).then(userData => {
-                                    ("3 ",userData);
                                     if (userData)
                                         return userData.userName;
                                     else
