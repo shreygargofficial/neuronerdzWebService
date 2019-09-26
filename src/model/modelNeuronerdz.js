@@ -440,7 +440,20 @@ modelNeuronerdz.changeUserPermission = (userName, userPermission) => {
     })
 
 }
-
+modelNeuronerdz.changeBlogStatus=(blogId,blogStatus)=>{
+    return schema.getBlogSchema().then(model => {
+        return model.updateOne(
+            { blogId: blogId },
+            { $set: { blogStatus: blogStatus } }
+        ).then(uData => {
+            if (uData.nModified == 1) {
+                return blogId
+            }
+            else
+                return null;
+        })
+    })
+}
 modelNeuronerdz.addUser = (user) => {
     
     return modelNeuronerdz.getUserByUserName(user.userName).then(checkUserName => {

@@ -228,6 +228,14 @@ route.put('/changeUserPermission/:userName/:userPermission',(req, res, next) => 
     })
 })
 
+route.put('/changeBlogStatus/:blogId/:blogStatus',(req, res, next) => {
+    serviceNeuronerdz.changeBlogStatus(req.params.blogId,req.params.blogStatus).then(blogId => {
+        res.json({"data":"Blog "+blogId+" is now "+req.params.blogStatus})
+    }).catch(error => {
+        next(error)
+    })
+})
+
 route.post('/addUser',(req, res, next) => {
     let user=new userClass(req.body)
     serviceNeuronerdz.addUser(user).then(userData => {

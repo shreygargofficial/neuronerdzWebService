@@ -11,6 +11,7 @@ const blogSchema = new mongoose.Schema({
     blogTagNames: [String],
     blogTitle:{type:String,unique:true},
     blogAuthor: String,
+    blogStatus:String,
     blogComments: [
         {
             commentId: Number,

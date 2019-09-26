@@ -10,7 +10,7 @@ const blog=class blogClass {
         this.blogAuthor= obj.blogAuthor;
         this.blogDate=new Date().toUTCString();
         this.blogImage=obj.blogImage;
-        
+        this.blogStatus="draft"
     }
 
 }

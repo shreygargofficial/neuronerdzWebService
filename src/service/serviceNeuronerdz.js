@@ -303,7 +303,19 @@ serviceNeuronerdz.changeUserPermission=(userName,userPermission)=>{
         }
     })
 }
-
+serviceNeuronerdz.changeBlogStatus=(blogId,blogStatus)=>{
+    return modelNeuronerdz.changeBlogStatus(blogId,blogStatus).then(blogId=>{
+        if(blogId){
+            return blogId;
+        }
+        else{
+            let err=new Error()
+            err.message="Can't change the status of blog";
+            err.status=400;
+            throw err;
+        }
+    })
+}
 serviceNeuronerdz.addUser=(user)=>{
     validation.addUser(user)
     return modelNeuronerdz.addUser(user).then(userData=>{
