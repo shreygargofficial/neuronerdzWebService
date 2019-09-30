@@ -68,6 +68,18 @@ serviceNeuronerdz.getBlogByTitle=(blogTitle)=>{
         }
     })
 }
+serviceNeuronerdz.getBlogByUrl=(blogUrl)=>{
+    return modelNeuronerdz.getBlogByUrl(blogUrl).then(blog=>{
+        if(blog)
+        return blog;
+        else{
+            let err=new Error();
+            err.message="No blog found with Url "+blogUrl;
+            err.status=404;
+            throw err;
+        }
+    })
+}
 serviceNeuronerdz.getBlogsByLimit=(categoryMain,limit)=>{
     return modelNeuronerdz.getBlogsByLimit(categoryMain,limit).then(blog=>{
         if(blog)
@@ -148,6 +160,9 @@ serviceNeuronerdz.getUserByUserName=(userName)=>{
 }
 serviceNeuronerdz.addBlog=(blog)=>{
     validation.addBlog(blog);
+    let urlBlog=blog.blogTitle.toLowerCase().replace(/[@#$%^&*!:"'().]/g, "").replace(/([\s]{2,})/g, " ").replace(/[\s]/g, "-");
+        blog.blogUrl=urlBlog;
+        console.log(blog)
         return modelNeuronerdz.addBlog(blog).then(blogId=>{
             if(blogId)
             return blogId;

@@ -9,6 +9,7 @@ const blogSchema = new mongoose.Schema({
         sub:[String]
     },
     blogTagNames: [String],
+    blogUrl:String,
     blogTitle:{type:String,unique:true},
     blogAuthor: String,
     blogStatus:String,

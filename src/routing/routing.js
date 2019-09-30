@@ -75,7 +75,13 @@ route.get('/getBlogByTitle/:blogTitle', (req, res, next) => {
         next(error)
     })
 })
-
+route.get('/getBlogByUrl/:blogUrl', (req, res, next) => {
+    serviceNeuronerdz.getBlogByUrl(req.params.blogUrl).then(blog => {
+        res.json({ data: blog })
+    }).catch(error => {
+        next(error)
+    })
+})
 
 route.get('/getBlogsByLimit/:categoryMain/:limit', (req, res, next) => {
     serviceNeuronerdz.getBlogsByLimit(req.params.categoryMain, req.params.limit).then(blog => {

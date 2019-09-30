@@ -42,12 +42,7 @@ validatation.addBlog = (blog) => {
         err.status = 300;
         throw err;
     }
-    else if(!blog.blogTitle.match(/^[a-zA-Z]+([\s][a-zA-Z]+)*$/)){
-        let err = new Error();
-        err.message = "blog title should not contain special character or numbers";
-        err.status = 300;
-        throw err;
-    }
+  
 
 }
 

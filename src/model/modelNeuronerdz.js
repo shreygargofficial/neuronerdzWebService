@@ -13,13 +13,13 @@ modelNeuronerdz.createBlogId = () => {
             { $project: { blogId: 1, _id: 0 } }
 
         ]).then(blog => {
-            
-                if (blog.length == 0)
-                    return 0
 
-                return blog[0].blogId;
-            
-            
+            if (blog.length == 0)
+                return 0
+
+            return blog[0].blogId;
+
+
         })
     })
 }
@@ -32,12 +32,12 @@ modelNeuronerdz.createUserId = () => {
             { $project: { userId: 1, _id: 0 } }
 
         ]).then(user => {
-            
-                if (user.length == 0)
-                    return 0
 
-                return user[0].userId;
-            
+            if (user.length == 0)
+                return 0
+
+            return user[0].userId;
+
         })
     })
 }
@@ -107,6 +107,16 @@ modelNeuronerdz.getBlogById = (blogId) => {
 modelNeuronerdz.getBlogByTitle = (blogTitle) => {
     return schema.getBlogSchema().then(model => {
         return model.findOne({ blogTitle: blogTitle }, { _id: 0 }).then(blog => {
+            if (blog)
+                return blog;
+            else
+                return null
+        })
+    })
+}
+modelNeuronerdz.getBlogByUrl = (blogUrl) => {
+    return schema.getBlogSchema().then(model => {
+        return model.findOne({ blogUrl: blogUrl }, { _id: 0 }).then(blog => {
             if (blog)
                 return blog;
             else
@@ -309,7 +319,16 @@ modelNeuronerdz.deleteBlog = (blogId) => {
 
 modelNeuronerdz.getAllCategories = () => {
     return schema.getBlogSchema().then(model => {
-        return model.distinct("blogCategory.main").then(categoryMain => {
+        return model.aggregate(
+            [
+                { $group: { 
+                    _id: "$blogCategory.main",
+                     totalBlog: {$sum:1} 
+                    } 
+                },
+                { $project: { _id: 0, _id: 1, totalBlog: 1 } }
+            ]
+        ).then(categoryMain => {
             if (categoryMain.length > 0)
                 return categoryMain;
             else
@@ -440,7 +459,7 @@ modelNeuronerdz.changeUserPermission = (userName, userPermission) => {
     })
 
 }
-modelNeuronerdz.changeBlogStatus=(blogId,blogStatus)=>{
+modelNeuronerdz.changeBlogStatus = (blogId, blogStatus) => {
     return schema.getBlogSchema().then(model => {
         return model.updateOne(
             { blogId: blogId },
@@ -455,17 +474,17 @@ modelNeuronerdz.changeBlogStatus=(blogId,blogStatus)=>{
     })
 }
 modelNeuronerdz.addUser = (user) => {
-    
+
     return modelNeuronerdz.getUserByUserName(user.userName).then(checkUserName => {
         if (checkUserName) {
-           
+
             let err = new Error();
             err.message = "UserName already exist"
             err.status = 404;
             throw err;
         }
         else {
-        
+
             return modelNeuronerdz.getUserByEmailId(user.emailId).then(checkEmailId => {
                 if (checkEmailId) {
                     let err = new Error();
@@ -475,15 +494,15 @@ modelNeuronerdz.addUser = (user) => {
                 }
                 else {
                     return modelNeuronerdz.createUserId().then(userId => {
-                            user.userId=userId+1;
-                            return schema.getUserSchema().then(model => {
-                                return model.create(user).then(userData => {
-                                    if (userData)
-                                        return userData.userName;
-                                    else
-                                        return null;
-                                })
+                        user.userId = userId + 1;
+                        return schema.getUserSchema().then(model => {
+                            return model.create(user).then(userData => {
+                                if (userData)
+                                    return userData.userName;
+                                else
+                                    return null;
                             })
+                        })
                     })
 
                 }
