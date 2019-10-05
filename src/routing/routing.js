@@ -220,6 +220,7 @@ route.put('/changeCommentStatus/:commentId/:commentStatus', (req, res, next) => 
 })
 route.post('/loginUser',(req, res, next) => {
     serviceNeuronerdz.loginUser(req.body).then(cdata => {
+       
         res.json({"data":"Successfully login"})
     }).catch(error => {
         next(error)

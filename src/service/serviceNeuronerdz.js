@@ -300,7 +300,7 @@ serviceNeuronerdz.loginUser=(userBody)=>{
         else{
             let err=new Error()
             err.message="Invalid Credentials";
-            err.status=200;
+            err.status=400;
             throw err;
         }
     })
