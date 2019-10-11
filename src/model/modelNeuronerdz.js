@@ -63,7 +63,7 @@ modelNeuronerdz.getAllBlogs = () => {
     })
 }
 modelNeuronerdz.getAllUsers = () => {
-    return schema.getBlogSchema().then(model => {
+    return schema.getUserSchema().then(model => {
         return model.find({}, { _id: 0 }).then(udata => {
             if (udata.length > 0)
                 return udata;
@@ -216,7 +216,14 @@ modelNeuronerdz.getBlogsByUserName = (userName) => {
 modelNeuronerdz.getUserByUserName = (userName) => {
 
     return schema.getUserSchema().then(model => {
-        return model.findOne({ userName: userName }).then(udata => {
+        return model.findOne(
+            {
+                $or: [
+                    { userName: userName },
+                    { emailId: userName }
+                ]
+            }, { _id: 0, userPassword: 0 }
+        ).then(udata => {
             if (udata)
                 return udata;
             else
@@ -321,10 +328,11 @@ modelNeuronerdz.getAllCategories = () => {
     return schema.getBlogSchema().then(model => {
         return model.aggregate(
             [
-                { $group: { 
-                    _id: "$blogCategory.main",
-                     totalBlog: {$sum:1} 
-                    } 
+                {
+                    $group: {
+                        _id: "$blogCategory.main",
+                        totalBlog: { $sum: 1 }
+                    }
                 },
                 { $project: { _id: 0, _id: 1, totalBlog: 1 } }
             ]

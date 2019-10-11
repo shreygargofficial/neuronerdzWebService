@@ -111,6 +111,12 @@ validatation.addUser=(user)=>{
         err.status = 300;
         throw err;
     }
+    else if(user.userName.match(/[@!#$%^&*() ]/)){
+        let err = new Error();
+        err.message = "UserName field should not contain special character";
+        err.status = 300;
+        throw err;
+    }
     else if(!user.userPhoneNumbers)
     {
         let err = new Error();
