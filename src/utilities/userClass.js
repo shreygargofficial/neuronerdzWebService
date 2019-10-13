@@ -6,7 +6,7 @@ constructor(obj){
     this.userPhoneNumbers=obj.userPhoneNumbers,
     this.emailId=obj.emailId,
     this.userPassword=obj.userPassword,
-    this.userPermission="Editor"
+    this.userPermission="editor"
 }
     
 }
