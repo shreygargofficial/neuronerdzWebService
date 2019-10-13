@@ -145,4 +145,40 @@ validatation.addUser=(user)=>{
         throw err;
     }
 }
+
+validatation.updateUser=(user)=>{
+    if(!user.emailId){
+        let err = new Error();
+        err.message = "Email Id should not be empty";
+        err.status = 300;
+        throw err;
+    }
+    else if(!user.userName){
+        let err = new Error();
+        err.message = "UserName field should not be empty";
+        err.status = 300;
+        throw err;
+    }
+    else if(user.userName.match(/[@!#$%^&*() ]/)){
+        let err = new Error();
+        err.message = "UserName field should not contain special character";
+        err.status = 300;
+        throw err;
+    }
+  
+    else if(!user.name){
+        let err = new Error();
+        err.message = "Name field should not be empty";
+        err.status = 300;
+        throw err;
+    }
+    else if(!user.emailId.match(/[a-zA-Z._0-9]+\@[a-zA-Z]+\.[a-zA-Z]{2,4}/))
+    {
+        let err = new Error();
+        err.message = "Email field should be correct";
+        err.status = 300;
+        throw err;
+    }
+}
+
 module.exports=validatation;

@@ -158,6 +158,7 @@ serviceNeuronerdz.getUserByUserName=(userName)=>{
     })
 
 }
+
 serviceNeuronerdz.addBlog=(blog)=>{
     validation.addBlog(blog);
     let urlBlog=blog.blogTitle.toLowerCase().replace(/[@#$%^&*!:"'().]/g, "").replace(/([\s]{2,})/g, " ").replace(/[\s]/g, "-");
@@ -201,6 +202,19 @@ serviceNeuronerdz.deleteBlog=(blogId)=>{
             }
         })
 }
+serviceNeuronerdz.deleteUser=(userName)=>{
+    return modelNeuronerdz.deleteUser(userName).then(userName=>{
+        if(userName)
+        return userName;
+        else {
+            let err=new Error();
+            err.message="Can't delete the user";
+            err.status=404;
+            throw err;
+        }
+    })
+}
+
 serviceNeuronerdz.getAllCategories=()=>{
     return modelNeuronerdz.getAllCategories().then(categories=>{
         if(categories)
@@ -340,6 +354,20 @@ serviceNeuronerdz.addUser=(user)=>{
         else{
             let err=new Error()
             err.message="Can't Add User";
+            err.status=400;
+            throw err;  
+        }
+    })
+}
+serviceNeuronerdz.updateUser=(userName,user)=>{
+    validation.updateUser(user)
+    return modelNeuronerdz.updateUser(userName,user).then(userData=>{
+        if(userData){
+            return userData;
+        }
+        else{
+            let err=new Error()
+            err.message="Can't Update User";
             err.status=400;
             throw err;  
         }

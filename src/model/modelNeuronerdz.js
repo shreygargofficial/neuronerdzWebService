@@ -323,6 +323,16 @@ modelNeuronerdz.deleteBlog = (blogId) => {
         })
     })
 }
+modelNeuronerdz.deleteUser = (userName) => {
+    return schema.getUserSchema().then(model => {
+        return model.deleteOne({ userName: userName }).then(ddata => {
+            if (ddata.deletedCount == 1)
+                return userName;
+            else
+                return null;
+        })
+    })
+}
 
 modelNeuronerdz.getAllCategories = () => {
     return schema.getBlogSchema().then(model => {
@@ -518,6 +528,36 @@ modelNeuronerdz.addUser = (user) => {
 
         }
     })
+
+}
+modelNeuronerdz.updateUser = (userName, user) => {
+    return modelNeuronerdz.getUserByEmailId(user.emailId).then(userByEmail => {
+        if (userByEmail && userByEmail.userName != userName) {
+            let err = new Error();
+            err.message = "EmailId already exist"
+            err.status = 404;
+            throw err;
+        }
+        else {
+
+            return schema.getUserSchema().then(model => {
+                return model.updateOne(
+                    { userName: userName },
+                    { $set: {
+                        name:user.name,
+                        emailId:user.emailId,
+                        userPermission:user.userPermission
+                    } }
+                ).then(userData => {
+                    if (userData.nModified==1)
+                        return user;
+                    else
+                        return null;
+                })
+            })
+        }
+    })
+
 
 }
 module.exports = modelNeuronerdz;

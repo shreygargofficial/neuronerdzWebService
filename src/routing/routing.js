@@ -5,7 +5,7 @@ const serviceNeuronerdz = require('../service/serviceNeuronerdz');
 const blogClass = require('../utilities/blogClass');
 const CommentClass = require('../utilities/CommentClass')
 const CommentReply = require('../utilities//CommentReply')
-const userClass=require('../utilities/userClass')
+const userClass = require('../utilities/userClass')
 
 route.get('/', (req, res, next) => {
     res.json({ "message": "Hello Shrey it is working " });
@@ -141,9 +141,9 @@ route.post('/addBlog', (req, res, next) => {
         next(error)
     })
 })
-route.put('/updateBlog/:blogId',(req, res, next) => {
+route.put('/updateBlog/:blogId', (req, res, next) => {
     let bc = new blogClass(req.body);
-    serviceNeuronerdz.updateBlog(req.params.blogId,bc).then(blogId => {
+    serviceNeuronerdz.updateBlog(req.params.blogId, bc).then(blogId => {
         res.json({ "message": "Your Blog is updated with blogId " + blogId })
     }).catch(error => {
         next(error)
@@ -151,35 +151,50 @@ route.put('/updateBlog/:blogId',(req, res, next) => {
 })
 
 route.delete('/deleteBlog/:blogId', (req, res, next) => {
-    
+
     serviceNeuronerdz.deleteBlog(req.params.blogId).then(blogId => {
         res.json({ "message": "Your Blog is deleted with blogId " + blogId })
     }).catch(error => {
         next(error)
     })
 })
+route.delete('/deleteUser/:userName', (req, res, next) => {
+    serviceNeuronerdz.deleteUser(req.params.userName).then(userName => {
+        res.json({ "message": "User is deleted with userName " + userName })
+    }).catch(error => {
+        next(error)
+    })
+})
+
+route.put('/updateUser/:userName', (req, res, next) => {
+    serviceNeuronerdz.updateUser(req.params.userName,req.body).then(udata => {
+        res.json({data:udata })
+    }).catch(error => {
+        next(error)
+    })
+})
 
 route.get('/getAllCategories', (req, res, next) => {
-    
+
     serviceNeuronerdz.getAllCategories().then(categories => {
-        res.json({"data":categories})
+        res.json({ "data": categories })
     }).catch(error => {
         next(error)
     })
 })
 route.get('/getAllTitles', (req, res, next) => {
-    
+
     serviceNeuronerdz.getAllTitles().then(titles => {
-        res.json({"data":titles})
+        res.json({ "data": titles })
     }).catch(error => {
         next(error)
     })
 })
 
 route.get('/search/:searchTag', (req, res, next) => {
-    
+
     serviceNeuronerdz.search(req.params.searchTag).then(searchResult => {
-        res.json({"data":searchResult})
+        res.json({ "data": searchResult })
     }).catch(error => {
         next(error)
     })
@@ -187,8 +202,8 @@ route.get('/search/:searchTag', (req, res, next) => {
 
 route.put('/addComment/:blogId', (req, res, next) => {
     let cc = new CommentClass(req.body)
-    serviceNeuronerdz.addComment(cc,req.params.blogId).then(cdata => {
-        res.json({"data":"Comment added with blogid "+cdata})
+    serviceNeuronerdz.addComment(cc, req.params.blogId).then(cdata => {
+        res.json({ "data": "Comment added with blogid " + cdata })
     }).catch(error => {
         next(error)
     })
@@ -197,56 +212,56 @@ route.put('/addComment/:blogId', (req, res, next) => {
 route.put('/replyComment/:commentId', (req, res, next) => {
     let rc = new CommentReply(req.body)
     console.log(rc);
-    
-    serviceNeuronerdz.replyComment(rc,req.params.commentId).then(cdata => {
-        res.json({"data":"Reply added with commentId "+cdata})
+
+    serviceNeuronerdz.replyComment(rc, req.params.commentId).then(cdata => {
+        res.json({ "data": "Reply added with commentId " + cdata })
     }).catch(error => {
         next(error)
     })
 })
 route.get('/getAllComments/:blogId', (req, res, next) => {
     serviceNeuronerdz.getAllComments(req.params.blogId).then(cdata => {
-        res.json({"data":cdata})
+        res.json({ "data": cdata })
     }).catch(error => {
         next(error)
     })
 })
 route.put('/changeCommentStatus/:commentId/:commentStatus', (req, res, next) => {
-    serviceNeuronerdz.changeCommentStatus(req.params.commentId,req.params.commentStatus).then(cdata => {
-        res.json({"data":"Comment Status has changed to "+req.params.commentStatus})
+    serviceNeuronerdz.changeCommentStatus(req.params.commentId, req.params.commentStatus).then(cdata => {
+        res.json({ "data": "Comment Status has changed to " + req.params.commentStatus })
     }).catch(error => {
         next(error)
     })
 })
-route.post('/loginUser',(req, res, next) => {
+route.post('/loginUser', (req, res, next) => {
     serviceNeuronerdz.loginUser(req.body).then(cdata => {
-       
-        res.json({"data":"Successfully login"})
+
+        res.json({ "data": "Successfully login" })
     }).catch(error => {
         next(error)
     })
 })
 
-route.put('/changeUserPermission/:userName/:userPermission',(req, res, next) => {
-    serviceNeuronerdz.changeUserPermission(req.params.userName,req.params.userPermission).then(userData => {
-        res.json({"data":"User "+userData+" is granted with permission "+req.params.userPermission})
+route.put('/changeUserPermission/:userName/:userPermission', (req, res, next) => {
+    serviceNeuronerdz.changeUserPermission(req.params.userName, req.params.userPermission).then(userData => {
+        res.json({ "data": "User " + userData + " is granted with permission " + req.params.userPermission })
     }).catch(error => {
         next(error)
     })
 })
 
-route.put('/changeBlogStatus/:blogId/:blogStatus',(req, res, next) => {
-    serviceNeuronerdz.changeBlogStatus(req.params.blogId,req.params.blogStatus).then(blogId => {
-        res.json({"data":"Blog "+blogId+" is now "+req.params.blogStatus})
+route.put('/changeBlogStatus/:blogId/:blogStatus', (req, res, next) => {
+    serviceNeuronerdz.changeBlogStatus(req.params.blogId, req.params.blogStatus).then(blogId => {
+        res.json({ "data": "Blog " + blogId + " is now " + req.params.blogStatus })
     }).catch(error => {
         next(error)
     })
 })
 
-route.post('/addUser',(req, res, next) => {
-    let user=new userClass(req.body)
+route.post('/addUser', (req, res, next) => {
+    let user = new userClass(req.body)
     serviceNeuronerdz.addUser(user).then(userData => {
-        res.json({"data":"Successfully added with userName "+userData})
+        res.json({ "data": "Successfully added with userName " + userData })
     }).catch(error => {
         next(error)
     })
