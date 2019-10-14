@@ -226,6 +226,13 @@ route.get('/getAllComments/:blogId', (req, res, next) => {
         next(error)
     })
 })
+route.get('/getAllTheComments' ,(req, res, next) => {
+    serviceNeuronerdz.getAllTheComments().then(cdata => {
+        res.json({ "data": cdata })
+    }).catch(error => {
+        next(error)
+    })
+})
 route.put('/changeCommentStatus/:commentId/:commentStatus', (req, res, next) => {
     serviceNeuronerdz.changeCommentStatus(req.params.commentId, req.params.commentStatus).then(cdata => {
         res.json({ "data": "Comment Status has changed to " + req.params.commentStatus })

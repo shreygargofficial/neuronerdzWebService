@@ -433,6 +433,17 @@ modelNeuronerdz.getAllComments = (blogId) => {
         })
     })
 }
+modelNeuronerdz.getAllTheComments = () => {
+    return schema.getBlogSchema().then(model => {
+        return model.distinct("blogComments").then(cdata => {
+            if (cdata.length > 0)
+                return cdata;
+            else
+                return null;
+        })
+    })
+}
+
 modelNeuronerdz.changeCommentStatus = (commentId, commentStatus) => {
     return schema.getBlogSchema().then(model => {
         return model.updateOne({ "blogComments.commentId": commentId }, { $set: { "blogComments.$.commentStatus": commentStatus } }).then(cdata => {

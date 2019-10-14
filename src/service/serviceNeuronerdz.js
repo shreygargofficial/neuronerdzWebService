@@ -294,6 +294,20 @@ serviceNeuronerdz.getAllComments=(blogId)=>{
         }
     })
 }
+serviceNeuronerdz.getAllTheComments=()=>{
+    return modelNeuronerdz.getAllTheComments().then(cdata=>{
+        if(cdata)
+        return cdata;
+        else
+        {
+            let err=new Error();
+            err.message="No comments now";
+            err.status=404;
+            throw err;
+        }
+    })
+}
+
 serviceNeuronerdz.changeCommentStatus=(commentId,commentStatus)=>{
     return modelNeuronerdz.changeCommentStatus(commentId,commentStatus).then(cdata=>{
         if(cdata)

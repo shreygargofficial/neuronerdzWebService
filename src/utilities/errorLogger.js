@@ -1,7 +1,7 @@
 const fs=require('fs');
 
 const errorLogger=(err,req,res,next)=>{
-    fs.appendFile('ErrorLogger.txt',err.stack+new Date().toTimeString(),error=>{
+    fs.appendFile('ErrorLogger.txt',"\n"+err.stack+new Date().toTimeString(),error=>{
         if(error)
         console.log("Cannot write file"+error)
     })
