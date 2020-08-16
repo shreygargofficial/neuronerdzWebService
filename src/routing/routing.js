@@ -69,6 +69,8 @@ route.get('/getBlogById/:blogId', (req, res, next) => {
     })
 })
 route.get('/getBlogByTitle/:blogTitle', (req, res, next) => {
+    console.log(req.params+"dss","dfd"+req.query);
+    
     serviceNeuronerdz.getBlogByTitle(req.params.blogTitle).then(blog => {
         res.json({ data: blog })
     }).catch(error => {

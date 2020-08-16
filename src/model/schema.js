@@ -17,6 +17,7 @@ const blogSchema = new mongoose.Schema({
         {
             commentId: Number,
             emailId: String,
+            commentDate:String,
             userMessage: String,
             commentStatus:String,
             commentReply: [

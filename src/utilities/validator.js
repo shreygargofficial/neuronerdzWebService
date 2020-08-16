@@ -82,7 +82,7 @@ validatation.validateCommentReply=(comment)=>{
         err.status = 300;
         throw err;
     }
-    if(!comment.emailId.match(/[a-zA-Z._]+\@[a-zA-Z]+\.[a-zA-Z]{2,4}/))
+    if(!comment.emailId.match(/[a-zA-Z0-9._]+\@[a-zA-Z]+\.[a-zA-Z]{2,4}/))
     {
         let err = new Error();
         err.message = "Comment field should be correct";
