@@ -9,5 +9,5 @@ app.use(cors());
 app.use('/',route);
 app.use(errorLogger);
 
-app.listen(4000);
-console.log("server started at 4000")
+app.listen(4004);
+console.log("server started at 4004")

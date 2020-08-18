@@ -176,6 +176,17 @@ route.put('/updateUser/:userName', (req, res, next) => {
     })
 })
 
+route.get('/getAllCategory', (req, res, next) => {
+
+    serviceNeuronerdz.getAllCategory().then(categories => {
+        res.json({ "data": categories })
+    }).catch(error => {
+        next(error)
+    })
+})
+
+
+
 route.get('/getAllCategories', (req, res, next) => {
 
     serviceNeuronerdz.getAllCategories().then(categories => {
@@ -271,6 +282,16 @@ route.post('/addUser', (req, res, next) => {
     let user = new userClass(req.body)
     serviceNeuronerdz.addUser(user).then(userData => {
         res.json({ "data": "Successfully added with userName " + userData })
+    }).catch(error => {
+        next(error)
+    })
+})
+
+
+route.post('/addCategory', (req, res, next) => {
+
+    serviceNeuronerdz.addCategory(req.body).then(category => {
+        res.json({ "data": "Successfully added category " + category })
     }).catch(error => {
         next(error)
     })

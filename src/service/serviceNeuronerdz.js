@@ -215,6 +215,19 @@ serviceNeuronerdz.deleteUser=(userName)=>{
     })
 }
 
+serviceNeuronerdz.getAllCategory=()=>{
+    return modelNeuronerdz.getAllCategory().then(categories=>{
+        if(categories)
+        return categories;
+        else{
+            let err=new Error();
+            err.message="No categories found";
+            err.status=404;
+            throw err;
+        }
+    })
+}
+
 serviceNeuronerdz.getAllCategories=()=>{
     return modelNeuronerdz.getAllCategories().then(categories=>{
         if(categories)
@@ -359,6 +372,22 @@ serviceNeuronerdz.changeBlogStatus=(blogId,blogStatus)=>{
         }
     })
 }
+
+serviceNeuronerdz.addCategory=(categoryObj)=>{
+    return modelNeuronerdz.addCategory(categoryObj).then(category=>{
+        
+        if(category){
+            return category;
+        }
+        else{
+            let err=new Error()
+            err.message="Can't Add Category";
+            err.status=400;
+            throw err;  
+        }
+    })
+}
+
 serviceNeuronerdz.addUser=(user)=>{
     validation.addUser(user)
     return modelNeuronerdz.addUser(user).then(userData=>{

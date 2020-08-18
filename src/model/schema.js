@@ -42,7 +42,9 @@ const userSchema=new mongoose.Schema({
     userPassword:String,
     userPermission:String
 })
-
+const categorySchema=new mongoose.Schema({
+    category:{type:String,unique:true}
+})
 const schema={};
 
 schema.getBlogSchema=()=>{
@@ -53,6 +55,11 @@ schema.getBlogSchema=()=>{
 schema.getUserSchema=()=>{
     return mongoose.connect('mongodb://localhost:27017/neuronerdz', {useNewUrlParser: true}).then(mongoose=>{
          return mongoose.model("user",userSchema,"user");
+     });
+ }
+ schema.getCategorySchema=()=>{
+    return mongoose.connect('mongodb://localhost:27017/neuronerdz', {useNewUrlParser: true}).then(mongoose=>{
+         return mongoose.model("category",categorySchema,"category");
      });
  }
  module.exports=schema;
