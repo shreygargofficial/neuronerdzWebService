@@ -189,6 +189,18 @@ serviceNeuronerdz.updateBlog=(blogId,blog)=>{
         })
 }
 
+serviceNeuronerdz.deleteCategory=(category)=>{
+    return modelNeuronerdz.deleteCategory(category).then(category=>{
+        if(category)
+        return category;
+        else {
+            let err=new Error();
+            err.message="Can't delete category";
+            err.status=404;
+            throw err;
+        }
+    })
+}
 
 serviceNeuronerdz.deleteBlog=(blogId)=>{
         return modelNeuronerdz.deleteBlog(blogId).then(blogId=>{

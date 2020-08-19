@@ -314,6 +314,18 @@ modelNeuronerdz.updateBlog = (blogId, blog) => {
 
 }
 
+
+modelNeuronerdz.deleteCategory = (category) => {
+    return schema.getCategorySchema().then(model => {
+        return model.deleteOne({ category: category }).then(ddata => {
+            if (ddata.deletedCount == 1)
+                return category;
+            else
+                return null;
+        })
+    })
+}
+
 modelNeuronerdz.deleteBlog = (blogId) => {
     return schema.getBlogSchema().then(model => {
         return model.deleteOne({ blogId: blogId }).then(ddata => {
@@ -519,6 +531,7 @@ modelNeuronerdz.changeBlogStatus = (blogId, blogStatus) => {
 
 modelNeuronerdz.addCategory=(categoryObj)=>{
     return modelNeuronerdz.getAllCategory().then(categories=>{
+       if(categories)
        categories.forEach(data=>{
            if(data.category===categoryObj.category.toLowerCase())
                 {

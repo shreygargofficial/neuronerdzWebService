@@ -160,6 +160,15 @@ route.delete('/deleteBlog/:blogId', (req, res, next) => {
         next(error)
     })
 })
+route.delete('/deleteCategory/:category', (req, res, next) => {
+
+    serviceNeuronerdz.deleteCategory(req.params.category).then(category => {
+        res.json({ "message": "Your category is deleted " + category })
+    }).catch(error => {
+        next(error)
+    })
+})
+
 route.delete('/deleteUser/:userName', (req, res, next) => {
     serviceNeuronerdz.deleteUser(req.params.userName).then(userName => {
         res.json({ "message": "User is deleted with userName " + userName })

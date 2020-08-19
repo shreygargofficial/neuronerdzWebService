@@ -1,4 +1,5 @@
 const user=class userclass{
+   
 
 constructor(obj){
     this.userName=obj.userName,
@@ -6,7 +7,7 @@ constructor(obj){
     this.userPhoneNumbers=obj.userPhoneNumbers,
     this.emailId=obj.emailId,
     this.userPassword=obj.userPassword,
-    this.userPermission="editor"
+    obj.userPermission?this.userPermission=obj.userPermission: this.userPermission="editor"
 }
     
 }
